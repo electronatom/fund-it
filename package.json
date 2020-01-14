@@ -1,0 +1,19 @@
+{
+  "name": "fund-it",
+  "version": "1.0.0",
+  "description": "A csv-based application that accepts loan, institution, and funding information input, and output a csv of loans that can be funded and all relevant information.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/electronatom/fund-it.git"
+  },
+  "author": "Natalia Baklitskaya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/electronatom/fund-it/issues"
+  },
+  "homepage": "https://github.com/electronatom/fund-it#readme"
+}
