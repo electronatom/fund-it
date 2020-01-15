@@ -78,6 +78,12 @@ The resulting output files can be found in the ./temp/large/ directory.
 
 ## Short-Term Laundry List
 * Add input csv validation
+* Add tests around functionality
+
+## Short-Term Endeavors
+* Add a database
+* Convert to a microservice with a GraphQL or REST API
+* Optimize for performance
 
 ## Author
 
