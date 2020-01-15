@@ -2,9 +2,9 @@
   "name": "fund-it",
   "version": "1.0.0",
   "description": "A csv-based application that accepts loan, institution, and funding information input, and output a csv of loans that can be funded and all relevant information.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node app.js ./sampleData/small/ ./temp/small/"
   },
   "repository": {
     "type": "git",
