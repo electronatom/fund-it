@@ -3,6 +3,11 @@ const fundLoans = (loansJSON, facilitiesMap, banksMap) => {
     loansJSON.forEach((loan) => {
         const result = fundLoan(loan, facilitiesMap, banksMap);
         if (result) {
+            // subtract the amount from the facility funds and update map
+            let facilityData = facilitiesMap.get(result.facilityId);
+            facilityData.amount = parseInt(facilityData.amount) - parseInt(loan.amount);
+            facilitiesMap.set(result.facilityId, facilityData);
+            // add result to the list of funded loans
             fundedLoans.push(result);
         }
     });
