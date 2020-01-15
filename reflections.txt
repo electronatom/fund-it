@@ -1,0 +1,20 @@
+1. How long did you spend working on the problem? What did you find to be the most difficult part?
+About 3-4 hours because I spent extra time on trying to make directions clearer and cleaning up code. The most difficult part was deciding how to structure data after reading it in from the CSV.
+
+2. How would you modify your data model or code to account for an eventual introduction of new, as-of-yet unknown types of covenants, beyond just maximum default likelihood and state restrictions?
+I would love to store everything in the database, with a Bank, Facility, Covenant table, and have predefined covenant types that can be referenced by id by the Bank or Facility, and business logic that would check the covenant type to decide how to handle loan funding.
+
+3. How would you architect your solution as a production service wherein new facilities can be introduced at arbitrary points in time. Assume these facilities become available by the finance team emailing your team and describing the addition with a new set of CSVs.
+I would do the following:
+- create a database to store the Bank, Facility, and Covenant data
+- convert this application into a BE service with 'upload' endpoint for uploading facilities and bank data and storing it in the DB, and 'fundloans' endpoint to fund loans provided in a list (which could be just one loan)
+- create a FE upload page for finance team to use to upload relevant files. Whenever new files would be uploaded, they would be temporarily stored in the cloud (we could use Amazon s3), and a reference to these files would be sent in the 'upload' POST request (or a GraphQL request) to the microservice. Relevant data in the Facility and Bank tables would be added or updated;
+
+4. Your solution most likely simulates the streaming process by directly calling a method in your code to process the loans inside of a for loop. What would a REST API look like for this same service? Stakeholders using the API will need, at a minimum, to be able to request a loan be assigned to a facility, and read the funding status of a loan, as well as query the capacities remaining in facilities.
+Part of this is addressed above. I would add an additional POST endpoint (/fundloan) that expects the loan information in the body, and it would respond with the funded loan data, including loan id, facility id, and facility's remaining amount. We will also need to add a GET endpoint (/getFacilityAmount/:id) for retrieving the facility data, like the remaining amount. All of these requests will query and modify data in the database.
+
+5. How might you improve your assignment algorithm if you were permitted to assign loans in batch rather than streaming? We are not looking for code here, but pseudo code or description of a revised algorithm appreciated.
+We should try assigning the riskiest loans first to ensure that we don't deplete the resources for the facilities with the capacity to handle risky loans by assigning less risky loans to them. We should also assign the loans originating from restricted states first for similar reasons.
+
+6. Discuss your solution’s runtime complexity.
+For the most part, the solution is order of n + m + l + i -> O(n) or so since we sequentially iterate over the 4 types of data. The code is least efficient in the fundLoans() -> fundLoan() functions combo since we iterate over every available facility for every loan. If we used a database here, we could reduce the number of facilities we would need to iterate over by selecting from the Facility table only the facilities that can actually fund the loan.
